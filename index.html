@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sipariş & Kargo Takip</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,7 +24,7 @@
                         success: '#10b981', // Emerald-500
                     },
                     boxShadow: {
-                        'card': '0 20px 40px -10px rgba(0,0,0,0.1)',
+                        'card': '0 10px 30px -5px rgba(0,0,0,0.06)',
                         'glow': '0 0 20px rgba(236, 72, 153, 0.4)'
                     },
                     backgroundImage: {
@@ -38,30 +38,39 @@
         body { 
             background-color: #f8fafc; 
             background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
-            background-size: 24px 24px;
+            background-size: 20px 20px;
+            /* Mobilde sağa sola kaymayı engelle */
+            overflow-x: hidden;
         }
         
         .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Timeline Çizgileri */
+        /* Timeline Çizgileri - Responsive Ayarlar */
         .step-connector {
             position: absolute;
-            top: 24px;
-            left: 30px;
-            right: 30px;
-            height: 4px;
+            /* Mobilde ikon küçük olduğu için çizgi daha yukarıda */
+            top: 20px; 
+            left: 20px;
+            right: 20px;
+            height: 3px;
             background-color: #e2e8f0;
             z-index: 0;
         }
         .step-progress {
             position: absolute;
-            top: 24px;
-            left: 30px;
-            height: 4px;
+            top: 20px;
+            left: 20px;
+            height: 3px;
             background: linear-gradient(to right, #ec4899, #be185d);
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 0;
+        }
+
+        /* Masaüstü için Timeline Ayarları (md: breakpoint) */
+        @media (min-width: 768px) {
+            .step-connector { top: 28px; left: 28px; right: 28px; height: 4px; }
+            .step-progress { top: 28px; left: 28px; height: 4px; }
         }
         
         .text-gradient {
@@ -69,6 +78,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        /* Mobilde Timeline Kaydırma Çubuğunu Gizle */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col font-sans selection:bg-pink-100 selection:text-pink-900">
@@ -103,11 +116,11 @@
     </script>
 
     <!-- HEADER -->
-    <header class="bg-darkBlue text-white shadow-lg border-b border-slate-700 sticky top-0 z-50 h-20 flex items-center">
-        <div class="max-w-5xl mx-auto px-6 w-full flex items-center justify-center">
-            <div class="flex items-center gap-6">
+    <header class="bg-darkBlue text-white shadow-lg border-b border-slate-700 sticky top-0 z-50 h-16 md:h-20 flex items-center">
+        <div class="max-w-5xl mx-auto px-4 md:px-6 w-full flex items-center justify-center">
+            <div class="flex items-center gap-3 md:gap-6">
                  <!-- Logo -->
-                 <img src="https://www.upload.ee/image/18885746/Hedeflogo_arkapembe.png" class="h-10 w-auto brightness-0 invert drop-shadow-md" alt="Logo">
+                 <img src="https://www.upload.ee/image/18885746/Hedeflogo_arkapembe.png" class="h-8 md:h-10 w-auto brightness-0 invert drop-shadow-md" alt="Logo">
                  
                  <!-- Ayırıcı Çizgi -->
                  <div class="h-6 w-px bg-slate-600 hidden sm:block"></div>
@@ -122,195 +135,165 @@
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 w-full max-w-4xl mx-auto px-4 py-12 flex flex-col items-center justify-start">
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-12 flex flex-col items-center justify-start">
 
         <!-- SEARCH AREA -->
-        <div id="searchSection" class="w-full bg-white rounded-[2rem] p-10 sm:p-14 shadow-card border border-slate-100 relative overflow-hidden text-center transition-all">
+        <div id="searchSection" class="w-full bg-white rounded-3xl md:rounded-[2rem] p-6 md:p-14 shadow-card border border-slate-100 relative overflow-hidden text-center transition-all">
             
             <!-- Üstteki Renkli Çizgi -->
-            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand to-orange-400"></div>
+            <div class="absolute top-0 left-0 w-full h-1.5 md:h-2 bg-gradient-to-r from-brand to-orange-400"></div>
 
             <!-- Etiket -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-xs font-bold text-slate-500 mb-8 uppercase tracking-wider">
-                <i data-lucide="truck" class="w-4 h-4 text-brand"></i>
+            <div class="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-slate-50 border border-slate-200 text-[10px] md:text-xs font-bold text-slate-500 mb-6 md:mb-8 uppercase tracking-wider">
+                <i data-lucide="truck" class="w-3 h-3 md:w-4 md:h-4 text-brand"></i>
                 <span>Online Teslimat Sorgulama</span>
             </div>
 
             <!-- Başlık -->
-            <h1 class="text-4xl sm:text-5xl font-black text-darkBlue mb-6 tracking-tight">
+            <h1 class="text-3xl md:text-5xl font-black text-darkBlue mb-4 md:mb-6 tracking-tight">
                 Siparişim <span class="text-gradient">Nerede?</span>
             </h1>
-            <p class="text-slate-500 mb-12 max-w-lg mx-auto text-lg font-medium leading-relaxed">
+            <p class="text-slate-500 mb-8 md:mb-12 max-w-lg mx-auto text-sm md:text-lg font-medium leading-relaxed px-2">
                 Siparişinizin durumunu anlık olarak takip etmek için lütfen TC Kimlik numaranızı aşağıya giriniz.
             </p>
 
             <!-- Arama Formu -->
-            <form onsubmit="handleSearch(event)" class="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4 items-center">
+            <form onsubmit="handleSearch(event)" class="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 md:gap-4 items-center">
                 <div class="relative flex-1 w-full">
-                    <div class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                        <i data-lucide="search" class="w-6 h-6"></i>
+                    <div class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+                        <i data-lucide="search" class="w-5 h-5 md:w-6 md:h-6"></i>
                     </div>
                     <input type="text" id="searchInput" maxlength="11" placeholder="TC Kimlik Numaranız" 
-                        class="w-full h-16 pl-16 pr-6 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-brand focus:ring-4 focus:ring-pink-50 outline-none font-bold text-darkBlue placeholder:text-slate-400 text-xl shadow-sm transition-all tracking-wide">
+                        class="w-full h-14 md:h-16 pl-12 md:pl-16 pr-4 md:pr-6 rounded-xl md:rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-brand focus:ring-4 focus:ring-pink-50 outline-none font-bold text-darkBlue placeholder:text-slate-400 text-lg md:text-xl shadow-sm transition-all tracking-wide">
                 </div>
                 
-                <button type="submit" class="w-full sm:w-auto h-16 bg-darkerBlue hover:bg-slate-800 text-white px-10 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-[1.02] flex items-center justify-center gap-3 transition-all active:scale-[0.98] group">
+                <button type="submit" class="w-full sm:w-auto h-14 md:h-16 bg-darkerBlue hover:bg-slate-800 text-white px-8 md:px-10 rounded-xl md:rounded-2xl font-bold text-base md:text-lg shadow-xl hover:shadow-2xl hover:scale-[1.02] flex items-center justify-center gap-2 md:gap-3 transition-all active:scale-[0.98] group">
                     SORGULA 
-                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform text-brand"></i>
+                    <i data-lucide="arrow-right" class="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform text-brand"></i>
                 </button>
             </form>
 
-            <div class="mt-10">
-                <div class="inline-flex items-center gap-2 text-sm font-medium text-slate-400 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 cursor-pointer hover:bg-white hover:border-brand hover:text-brand transition-all select-none group" onclick="document.getElementById('searchInput').value='11111111111'">
+            <div class="mt-8 md:mt-10">
+                <div class="inline-flex items-center gap-2 text-xs md:text-sm font-medium text-slate-400 bg-slate-50 px-3 py-1.5 md:px-4 md:py-2 rounded-xl border border-slate-100 cursor-pointer hover:bg-white hover:border-brand hover:text-brand transition-all select-none group" onclick="document.getElementById('searchInput').value='11111111111'">
                     <span class="group-hover:text-darkBlue transition-colors">Örnek Test Verisi:</span>
                     <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-200 group-hover:border-brand/30">11111111111</span>
                 </div>
             </div>
             
-            <div id="errorMsg" class="hidden mt-8 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 flex items-center justify-center gap-2 animate-bounce-short">
+            <div id="errorMsg" class="hidden mt-6 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 flex items-center justify-center gap-2 animate-bounce-short text-sm md:text-base">
                 <i data-lucide="alert-circle" class="w-5 h-5"></i>
                 <span class="font-bold">Kayıt bulunamadı, lütfen kontrol ediniz.</span>
             </div>
         </div>
 
         <!-- LOADING -->
-        <div id="loading" class="hidden py-20 text-center">
-            <div class="relative w-16 h-16 mx-auto mb-6">
-                <div class="absolute inset-0 border-[6px] border-slate-100 rounded-full"></div>
-                <div class="absolute inset-0 border-[6px] border-brand border-t-transparent rounded-full animate-spin"></div>
+        <div id="loading" class="hidden py-16 md:py-20 text-center">
+            <div class="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6">
+                <div class="absolute inset-0 border-[5px] md:border-[6px] border-slate-100 rounded-full"></div>
+                <div class="absolute inset-0 border-[5px] md:border-[6px] border-brand border-t-transparent rounded-full animate-spin"></div>
             </div>
-            <p class="text-slate-600 font-bold text-lg animate-pulse">Siparişleriniz kontrol ediliyor...</p>
+            <p class="text-slate-600 font-bold text-base md:text-lg animate-pulse">Siparişleriniz kontrol ediliyor...</p>
         </div>
 
         <!-- LIST VIEW -->
-        <div id="ordersListArea" class="hidden w-full space-y-6 animate-slide-up max-w-3xl mx-auto mt-8">
-            <div class="flex items-center justify-between px-4">
-                <h3 class="text-xl font-bold text-darkBlue flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center text-brand"><i data-lucide="list" class="w-5 h-5"></i></span>
+        <div id="ordersListArea" class="hidden w-full space-y-4 md:space-y-6 animate-slide-up max-w-3xl mx-auto mt-6 md:mt-8">
+            <div class="flex items-center justify-between px-2 md:px-4">
+                <h3 class="text-lg md:text-xl font-bold text-darkBlue flex items-center gap-2 md:gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center text-brand"><i data-lucide="list" class="w-4 h-4 md:w-5 md:h-5"></i></span>
                     Bulunan Siparişler
                 </h3>
-                <span class="text-xs font-bold bg-darkBlue text-white px-4 py-1.5 rounded-full shadow-lg" id="resultCount">0</span>
+                <span class="text-xs font-bold bg-darkBlue text-white px-3 py-1 md:px-4 md:py-1.5 rounded-full shadow-lg" id="resultCount">0</span>
             </div>
             
-            <div id="ordersContainer" class="grid gap-4">
+            <div id="ordersContainer" class="grid gap-3 md:gap-4">
                 <!-- JS Populates Here -->
             </div>
         </div>
 
         <!-- DETAIL VIEW -->
-        <div id="orderDetailArea" class="hidden w-full animate-slide-up pb-12 mt-4">
+        <div id="orderDetailArea" class="hidden w-full animate-slide-up pb-12 mt-4 md:mt-6">
             
             <!-- Back Button -->
-            <button onclick="goBackToList()" class="group flex items-center gap-3 text-sm font-bold text-slate-500 hover:text-darkBlue mb-8 pl-1 transition-colors">
-                <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:bg-brand group-hover:text-white group-hover:border-brand transition-all shadow-sm">
-                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            <button onclick="goBackToList()" class="group flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold text-slate-500 hover:text-darkBlue mb-6 md:mb-8 pl-1 transition-colors">
+                <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:bg-brand group-hover:text-white group-hover:border-brand transition-all shadow-sm">
+                    <i data-lucide="arrow-left" class="w-4 h-4 md:w-5 md:h-5"></i>
                 </div>
                 <span class="uppercase tracking-wide">Listeye Geri Dön</span>
             </button>
 
             <!-- CARD -->
-            <div class="bg-white rounded-[2.5rem] shadow-card border border-slate-100 p-8 sm:p-12 mb-8 text-center relative overflow-hidden">
+            <div class="bg-white rounded-3xl md:rounded-[2.5rem] shadow-card border border-slate-100 p-6 md:p-12 mb-6 md:mb-8 text-center relative overflow-hidden">
                 
                 <!-- Status Headline -->
-                <div class="mb-14 relative z-10">
-                    <h2 id="detailStatusTitle" class="text-3xl sm:text-5xl font-black text-brand tracking-tight mb-3">
+                <div class="mb-10 md:mb-14 relative z-10">
+                    <h2 id="detailStatusTitle" class="text-2xl md:text-4xl font-black text-brand tracking-tight mb-2 md:mb-3">
                         <!-- JS Güncelleyecek -->
                     </h2>
-                    <div class="inline-block h-1.5 w-24 bg-gradient-to-r from-transparent via-brand to-transparent rounded-full opacity-50"></div>
+                    <div class="inline-block h-1 md:h-1.5 w-16 md:w-24 bg-gradient-to-r from-transparent via-brand to-transparent rounded-full opacity-50"></div>
                 </div>
                 
-                <!-- TIMELINE -->
-                <div class="relative z-10 mb-6">
-                    <div class="flex justify-between items-start relative min-h-[120px]">
-                        <!-- Background Line -->
-                        <div class="step-connector"></div>
-                        <!-- Progress Line -->
-                        <div id="progressBarFill" class="step-progress" style="width: 0%"></div>
+                <!-- TIMELINE (Responsive Scrollable) -->
+                <div class="relative z-10 mb-4 md:mb-6">
+                    <!-- Mobilde yatay kaydırma için wrapper -->
+                    <div class="overflow-x-auto hide-scrollbar pb-4 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
+                        <div class="flex justify-between items-start relative min-w-[320px] md:min-w-0 min-h-[100px] md:min-h-[120px]">
+                            
+                            <!-- Background Line -->
+                            <div class="step-connector"></div>
+                            <!-- Progress Line -->
+                            <div id="progressBarFill" class="step-progress" style="width: 0%"></div>
 
-                        <!-- Step 1 -->
-                        <div class="relative z-10 flex flex-col items-center w-24 -ml-4 sm:ml-0 group">
-                            <div id="step-1-icon" class="w-14 h-14 rounded-full bg-white border-4 border-slate-200 text-slate-300 flex items-center justify-center transition-all duration-500 shadow-sm mb-4">
-                                <i data-lucide="package" class="w-6 h-6"></i>
+                            <!-- Steps Generation via JS for cleaner HTML -->
+                            <div id="timelineSteps" class="contents">
+                                <!-- JS will inject steps here -->
                             </div>
-                            <span id="step-1-text" class="text-xs font-bold text-slate-400 text-center leading-tight transition-colors">Gönderi<br>Alındı</span>
-                        </div>
 
-                        <!-- Step 2 -->
-                        <div class="relative z-10 flex flex-col items-center w-24">
-                            <div id="step-2-icon" class="w-14 h-14 rounded-full bg-white border-4 border-slate-200 text-slate-300 flex items-center justify-center transition-all duration-500 shadow-sm mb-4">
-                                <i data-lucide="arrow-right-left" class="w-6 h-6"></i>
-                            </div>
-                            <span id="step-2-text" class="text-xs font-bold text-slate-400 text-center leading-tight transition-colors">Transfer<br>Merkezi</span>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="relative z-10 flex flex-col items-center w-24">
-                            <div id="step-3-icon" class="w-14 h-14 rounded-full bg-white border-4 border-slate-200 text-slate-300 flex items-center justify-center transition-all duration-500 shadow-sm mb-4">
-                                <i data-lucide="warehouse" class="w-6 h-6"></i>
-                            </div>
-                            <span id="step-3-text" class="text-xs font-bold text-slate-400 text-center leading-tight transition-colors">Teslimat<br>Şubesi</span>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="relative z-10 flex flex-col items-center w-24">
-                            <div id="step-4-icon" class="w-14 h-14 rounded-full bg-white border-4 border-slate-200 text-slate-300 flex items-center justify-center transition-all duration-500 shadow-sm mb-4">
-                                <i data-lucide="truck" class="w-6 h-6"></i>
-                            </div>
-                            <span id="step-4-text" class="text-xs font-bold text-slate-400 text-center leading-tight transition-colors">Kurye<br>Dağıtımda</span>
-                        </div>
-
-                        <!-- Step 5 -->
-                        <div class="relative z-10 flex flex-col items-center w-24 -mr-4 sm:mr-0">
-                            <div id="step-5-icon" class="w-14 h-14 rounded-full bg-white border-4 border-slate-200 text-slate-300 flex items-center justify-center transition-all duration-500 shadow-sm mb-4">
-                                <i data-lucide="check" class="w-7 h-7"></i>
-                            </div>
-                            <span id="step-5-text" class="text-xs font-bold text-slate-400 text-center leading-tight transition-colors">Teslim<br>Edildi</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- DETAILS CARD -->
-            <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200/60 overflow-hidden relative">
-                <div class="p-8 sm:p-10">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 pb-8 border-b border-slate-100 gap-6">
+            <div class="bg-white rounded-3xl md:rounded-[2rem] shadow-sm border border-slate-200/60 overflow-hidden relative">
+                <div class="p-6 md:p-10">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-10 pb-6 md:pb-8 border-b border-slate-100 gap-4 md:gap-6">
                         <div>
-                            <span class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-2">Sipariş Numarası</span>
-                            <span id="detailOrderNo" class="font-mono font-black text-3xl sm:text-4xl text-darkBlue tracking-tight">SP-000</span>
+                            <span class="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest block mb-1 md:mb-2">Sipariş Numarası</span>
+                            <span id="detailOrderNo" class="font-mono font-black text-2xl md:text-4xl text-darkBlue tracking-tight">SP-000</span>
                         </div>
                         <div class="hidden sm:block px-6 py-2 bg-slate-50 rounded-xl border border-slate-100">
-                             <img src="https://www.upload.ee/image/18885746/Hedeflogo_arkapembe.png" class="h-6 w-auto opacity-70" alt="Logo Small">
+                             <img src="https://www.upload.ee/image/18885746/Hedeflogo_arkapembe.png" class="h-5 md:h-6 w-auto opacity-70" alt="Logo Small">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-10 gap-x-16">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 md:gap-y-10 gap-x-8 md:gap-x-16">
                         <div class="group">
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="w-6 h-6 rounded-md bg-pink-50 flex items-center justify-center text-brand"><i data-lucide="user" class="w-3 h-3"></i></span>
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Teslim Alacak</span>
+                            <div class="flex items-center gap-2 mb-2 md:mb-3">
+                                <span class="w-5 h-5 md:w-6 md:h-6 rounded-md bg-pink-50 flex items-center justify-center text-brand"><i data-lucide="user" class="w-3 h-3 md:w-3 md:h-3"></i></span>
+                                <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wide">Teslim Alacak</span>
                             </div>
-                            <div id="detailCustomer" class="font-bold text-darkBlue text-xl pl-8 border-l-4 border-slate-100 group-hover:border-brand transition-colors">-</div>
+                            <div id="detailCustomer" class="font-bold text-darkBlue text-lg md:text-xl pl-6 md:pl-8 border-l-4 border-slate-100 group-hover:border-brand transition-colors">-</div>
                         </div>
                         <div class="group">
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="w-6 h-6 rounded-md bg-pink-50 flex items-center justify-center text-brand"><i data-lucide="package" class="w-3 h-3"></i></span>
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Ürün Bilgisi</span>
+                            <div class="flex items-center gap-2 mb-2 md:mb-3">
+                                <span class="w-5 h-5 md:w-6 md:h-6 rounded-md bg-pink-50 flex items-center justify-center text-brand"><i data-lucide="package" class="w-3 h-3 md:w-3 md:h-3"></i></span>
+                                <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wide">Ürün Bilgisi</span>
                             </div>
-                            <div id="detailProductName" class="font-bold text-darkBlue text-xl pl-8 border-l-4 border-slate-100 group-hover:border-brand transition-colors leading-tight">-</div>
+                            <div id="detailProductName" class="font-bold text-darkBlue text-lg md:text-xl pl-6 md:pl-8 border-l-4 border-slate-100 group-hover:border-brand transition-colors leading-tight">-</div>
                         </div>
                         <div class="group">
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="w-6 h-6 rounded-md bg-pink-50 flex items-center justify-center text-brand"><i data-lucide="calendar" class="w-3 h-3"></i></span>
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Son İşlem Tarihi</span>
+                            <div class="flex items-center gap-2 mb-2 md:mb-3">
+                                <span class="w-5 h-5 md:w-6 md:h-6 rounded-md bg-pink-50 flex items-center justify-center text-brand"><i data-lucide="calendar" class="w-3 h-3 md:w-3 md:h-3"></i></span>
+                                <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wide">Son İşlem Tarihi</span>
                             </div>
-                            <div id="detailLastDate" class="font-bold text-slate-600 text-lg pl-8 border-l-4 border-slate-100 group-hover:border-brand transition-colors">-</div>
+                            <div id="detailLastDate" class="font-bold text-slate-600 text-base md:text-lg pl-6 md:pl-8 border-l-4 border-slate-100 group-hover:border-brand transition-colors">-</div>
                         </div>
                         <div class="group">
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="w-6 h-6 rounded-md bg-pink-50 flex items-center justify-center text-brand"><i data-lucide="clock" class="w-3 h-3"></i></span>
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Tahmini Teslimat</span>
+                            <div class="flex items-center gap-2 mb-2 md:mb-3">
+                                <span class="w-5 h-5 md:w-6 md:h-6 rounded-md bg-pink-50 flex items-center justify-center text-brand"><i data-lucide="clock" class="w-3 h-3 md:w-3 md:h-3"></i></span>
+                                <span class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wide">Tahmini Teslimat</span>
                             </div>
-                            <div id="detailEstimate" class="font-bold text-brand text-xl pl-8 border-l-4 border-slate-100 group-hover:border-brand transition-colors">Hesaplanıyor...</div>
+                            <div id="detailEstimate" class="font-bold text-brand text-lg md:text-xl pl-6 md:pl-8 border-l-4 border-slate-100 group-hover:border-brand transition-colors">Hesaplanıyor...</div>
                         </div>
                     </div>
                 </div>
@@ -334,7 +317,7 @@
             "Kurye Dağıtımda", 
             "Teslim Edildi"
         ];
-        
+
         // --- DATA FETCHING ---
         async function fetchOrders(tcNumber) {
             try {
@@ -417,40 +400,43 @@
             const container = document.getElementById('ordersContainer');
             orders.forEach((order, index) => {
                 const statusLower = (order.kargo_durumu || '').toLowerCase();
-                let statusColor = "bg-slate-100 text-slate-600 border border-slate-200";
-                let icon = "clock"; // Default icon
+                let statusColor = "bg-slate-100 text-slate-600 border-slate-200";
+                let icon = "clock"; 
 
                 if (statusLower.includes('teslim') || statusLower.includes('tamam')) {
-                    statusColor = "bg-emerald-50 text-emerald-700 border border-emerald-100";
+                    statusColor = "bg-emerald-50 text-emerald-700 border-emerald-100";
                     icon = "check-circle";
                 } else if (statusLower.includes('dağıtım') || statusLower.includes('yolda') || statusLower.includes('transfer')) {
-                    statusColor = "bg-blue-50 text-blue-700 border border-blue-100";
+                    statusColor = "bg-blue-50 text-blue-700 border-blue-100";
                     icon = "truck";
                 } else if (statusLower.includes('hazırlanıyor') || statusLower.includes('alındı')) {
-                    statusColor = "bg-orange-50 text-orange-700 border border-orange-100";
+                    statusColor = "bg-orange-50 text-orange-700 border-orange-100";
                     icon = "package";
                 }
                 
                 const html = `
-                    <div onclick="showOrderDetail(${index})" class="group bg-white rounded-2xl p-5 border border-slate-200 hover:border-brand hover:shadow-lg transition-all cursor-pointer flex items-center justify-between relative overflow-hidden">
+                    <div onclick="showOrderDetail(${index})" class="group bg-white rounded-2xl md:rounded-3xl p-5 md:p-6 border border-slate-200 hover:border-brand hover:shadow-lg transition-all cursor-pointer flex items-center justify-between relative overflow-hidden">
                         <div class="absolute left-0 top-0 w-1.5 h-full bg-slate-100 group-hover:bg-brand transition-colors"></div>
                         
                         <div class="pl-4 flex-1">
-                            <div class="flex items-center gap-2 mb-1.5">
-                                <span class="text-[10px] font-mono font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">#${order.siparis_no}</span>
-                                <div class="flex items-center gap-1 px-2 py-0.5 rounded-full ${statusColor}">
+                            <!-- Akıllı Etiket (Smart Tag) -->
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <span class="text-[10px] md:text-xs font-mono font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">#${order.siparis_no}</span>
+                                <div class="flex items-center gap-1 px-2 py-0.5 rounded-full border ${statusColor}">
                                     <i data-lucide="${icon}" class="w-3 h-3"></i>
-                                    <span class="text-[10px] font-bold uppercase tracking-wide">${order.kargo_durumu}</span>
+                                    <span class="text-[10px] md:text-xs font-bold uppercase tracking-wide">${order.kargo_durumu}</span>
                                 </div>
                             </div>
-                            <h4 class="font-bold text-darkBlue text-lg leading-tight group-hover:text-brand transition-colors">${order.urun_adi}</h4>
-                            <p class="text-xs text-slate-400 mt-1 flex items-center gap-1">
-                                <i data-lucide="calendar" class="w-3 h-3"></i> ${order.son_islem_tarihi}
+                            
+                            <h4 class="font-bold text-darkBlue text-lg md:text-xl leading-tight group-hover:text-brand transition-colors">${order.urun_adi}</h4>
+                            
+                            <p class="text-xs md:text-sm text-slate-400 mt-2 flex items-center gap-1.5">
+                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-300"></i> ${order.son_islem_tarihi}
                             </p>
                         </div>
                         
-                        <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all transform group-hover:translate-x-1">
-                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all transform group-hover:translate-x-1 ml-3">
+                            <i data-lucide="chevron-right" class="w-5 h-5 md:w-6 md:h-6"></i>
                         </div>
                     </div>
                 `;
@@ -466,7 +452,7 @@
             if (s.includes('dağıtım') || s.includes('kurye')) return 4;
             if (s.includes('şube') || s.includes('varış')) return 3;
             if (s.includes('transfer') || s.includes('yolda')) return 2;
-            return 1; // Default: Gönderi Alındı
+            return 1; 
         }
 
         function showOrderDetail(index) {
@@ -492,42 +478,66 @@
             
             if (currentStep === 5) {
                 estimateEl.textContent = "Teslim Edildi";
-                estimateEl.className = "font-bold text-success text-xl pl-8 border-l-4 border-slate-100";
-                titleEl.className = "text-3xl sm:text-5xl font-black text-success tracking-tight mb-3";
+                estimateEl.className = "font-bold text-success text-lg md:text-xl pl-6 md:pl-8 border-l-4 border-slate-100";
+                titleEl.className = "text-2xl md:text-4xl font-black text-success tracking-tight mb-2 md:mb-3";
             } else {
                 estimateEl.textContent = "Gün içinde (Tahmini)";
-                estimateEl.className = "font-bold text-brand text-xl pl-8 border-l-4 border-slate-100";
-                titleEl.className = "text-3xl sm:text-5xl font-black text-brand tracking-tight mb-3";
+                estimateEl.className = "font-bold text-brand text-lg md:text-xl pl-6 md:pl-8 border-l-4 border-slate-100";
+                titleEl.className = "text-2xl md:text-4xl font-black text-brand tracking-tight mb-2 md:mb-3";
             }
             
-            // Timeline Update
-            for (let i = 1; i <= 5; i++) {
-                const iconBox = document.getElementById(`step-${i}-icon`);
-                const textBox = document.getElementById(`step-${i}-text`);
+            // --- DYNAMIC TIMELINE GENERATION (Responsive) ---
+            const timelineContainer = document.getElementById('timelineSteps');
+            timelineContainer.innerHTML = '';
+            
+            const steps = [
+                { icon: 'package', label: 'Gönderi<br>Alındı' },
+                { icon: 'arrow-right-left', label: 'Transfer<br>Merkezi' },
+                { icon: 'warehouse', label: 'Teslimat<br>Şubesi' },
+                { icon: 'truck', label: 'Kurye<br>Dağıtımda' },
+                { icon: 'check', label: 'Teslim<br>Edildi' }
+            ];
+
+            steps.forEach((step, i) => {
+                const stepNum = i + 1;
+                let iconClass = "bg-white border-4 border-slate-200 text-slate-300";
+                let textClass = "text-slate-400";
                 
-                // Reset
-                iconBox.className = "w-14 h-14 rounded-full bg-white border-4 border-slate-200 text-slate-300 flex items-center justify-center transition-all duration-500 shadow-sm mb-4 z-10 relative";
-                textBox.className = "text-xs font-bold text-slate-400 text-center leading-tight transition-colors";
-                
-                if (i <= currentStep) {
+                if (stepNum <= currentStep) {
                     if (currentStep === 5) {
-                        iconBox.className = "w-14 h-14 rounded-full bg-success border-4 border-green-200 text-white flex items-center justify-center shadow-lg transform scale-100 transition-all duration-500 z-10 relative";
-                        textBox.classList.remove('text-slate-400');
-                        textBox.classList.add('text-success');
+                        iconClass = "bg-success border-4 border-green-200 text-white shadow-lg";
+                        textClass = "text-success";
+                    } else if (stepNum === currentStep) {
+                        iconClass = "bg-brand border-4 border-pink-200 text-white shadow-glow transform scale-110";
+                        textClass = "text-brand";
                     } else {
-                        if (i === currentStep) {
-                            iconBox.className = "w-14 h-14 rounded-full bg-brand border-4 border-pink-200 text-white flex items-center justify-center shadow-glow transform scale-110 transition-all duration-500 z-10 relative";
-                            textBox.classList.remove('text-slate-400');
-                            textBox.classList.add('text-brand');
-                        } else {
-                            iconBox.className = "w-14 h-14 rounded-full bg-brand text-white border-4 border-white flex items-center justify-center transition-all duration-500 z-10 relative";
-                            textBox.classList.remove('text-slate-400');
-                            textBox.classList.add('text-brand');
-                        }
+                        iconClass = "bg-brand text-white border-4 border-white";
+                        textClass = "text-brand";
                     }
                 }
-            }
 
+                // Responsive sizing classes
+                const sizeClasses = "w-10 h-10 md:w-14 md:h-14"; 
+                const iconSize = "w-4 h-4 md:w-6 md:h-6";
+                const textSize = "text-[9px] md:text-xs";
+                
+                // Margin Logic for even spacing (Approximate for 5 steps)
+                let marginClass = "w-16 md:w-24"; 
+                if (i === 0) marginClass += " -ml-2 md:-ml-4 sm:ml-0";
+                if (i === 4) marginClass += " -mr-2 md:-mr-4 sm:mr-0";
+
+                const html = `
+                    <div class="relative z-10 flex flex-col items-center ${marginClass} flex-shrink-0 group">
+                        <div class="${sizeClasses} rounded-full flex items-center justify-center transition-all duration-500 shadow-sm mb-2 md:mb-4 ${iconClass}">
+                            <i data-lucide="${step.icon}" class="${iconSize}"></i>
+                        </div>
+                        <span class="${textSize} font-bold text-center leading-tight transition-colors ${textClass}">${step.label}</span>
+                    </div>
+                `;
+                timelineContainer.insertAdjacentHTML('beforeend', html);
+            });
+
+            // Progress Bar Width
             const progressFill = document.getElementById('progressBarFill');
             const percentages = [0, 0, 25, 50, 75, 100]; 
             progressFill.style.width = `${percentages[currentStep]}%`;
