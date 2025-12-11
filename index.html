@@ -25,7 +25,7 @@
                     },
                     boxShadow: {
                         'card': '0 10px 30px -5px rgba(0,0,0,0.06)',
-                        'glow': '0 0 20px rgba(236, 72, 153, 0.6)' // Glow opaklığı artırıldı
+                        'glow': '0 0 20px rgba(236, 72, 153, 0.6)'
                     },
                     backgroundImage: {
                         'dot-pattern': 'radial-gradient(#cbd5e1 1.5px, transparent 1.5px)',
@@ -39,38 +39,44 @@
             background-color: #f8fafc; 
             background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
             background-size: 20px 20px;
-            /* Mobilde sağa sola kaymayı engelle */
             overflow-x: hidden;
         }
         
         .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Timeline Çizgileri - Responsive Ayarlar */
-        .step-connector {
+        /* TIMELINE ÇİZGİSİ - KESİN HESAPLAMA */
+        /* Mobilde Wrapper w-16 (64px) -> Merkez 32px */
+        /* Masaüstünde Wrapper w-24 (96px) -> Merkez 48px */
+        
+        .step-connector, .step-progress {
             position: absolute;
-            /* Mobilde ikon küçük olduğu için çizgi daha yukarıda */
             top: 20px; 
-            left: 20px;
-            right: 20px;
+            left: 32px;
+            /* width: 100% - (sol boşluk 32px + sağ boşluk 32px) = 100% - 64px */
+            width: calc(100% - 64px); 
             height: 3px;
-            background-color: #e2e8f0;
             z-index: 0;
         }
-        .step-progress {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            height: 3px;
-            background: linear-gradient(to right, #ec4899, #be185d);
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 0;
+        
+        .step-connector {
+            background-color: #e2e8f0;
         }
 
-        /* Masaüstü için Timeline Ayarları (md: breakpoint) */
+        .step-progress {
+            background: linear-gradient(to right, #ec4899, #be185d);
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Masaüstü Ayarları */
         @media (min-width: 768px) {
-            .step-connector { top: 28px; left: 28px; right: 28px; height: 4px; }
-            .step-progress { top: 28px; left: 28px; height: 4px; }
+            .step-connector, .step-progress { 
+                top: 28px; 
+                left: 48px; 
+                /* width: 100% - (sol 48px + sağ 48px) = 100% - 96px */
+                width: calc(100% - 96px);
+                height: 4px; 
+            }
         }
         
         .text-gradient {
@@ -79,7 +85,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Mobilde Timeline Kaydırma Çubuğunu Gizle */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -119,13 +124,8 @@
     <header class="bg-darkBlue text-white shadow-lg border-b border-slate-700 sticky top-0 z-50 h-16 md:h-20 flex items-center">
         <div class="max-w-5xl mx-auto px-4 md:px-6 w-full flex items-center justify-center">
             <div class="flex items-center gap-2 md:gap-6 cursor-pointer" onclick="goToHome()">
-                 <!-- LOGO GÜNCELLENDİ (Yeni Link) -->
                  <img src="https://i.ibb.co/tw11TJ4M/Hedeflogo-arkapembe.png" class="h-8 md:h-10 w-auto brightness-0 invert drop-shadow-md" alt="Logo">
-                 
-                 <!-- Ayırıcı Çizgi -->
                  <div class="h-6 w-px bg-slate-600 block opacity-50"></div>
-                 
-                 <!-- Yazı Alanı -->
                  <div class="flex flex-col flex">
                     <span class="font-black text-sm md:text-lg tracking-tight leading-none">KARGO TAKİP</span>
                     <span class="text-[9px] md:text-[10px] font-bold text-brand tracking-[0.2em] uppercase mt-0.5 md:mt-1">Müşteri Portalı</span>
@@ -137,24 +137,19 @@
     <!-- MAIN CONTENT -->
     <main class="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-12 flex flex-col items-center justify-start">
 
-        <!-- SEARCH AREA (my-auto: Dikeyde ortalar) -->
+        <!-- SEARCH AREA -->
         <div id="searchSection" class="my-auto w-full bg-white rounded-3xl md:rounded-[2rem] p-6 md:p-14 shadow-card border border-slate-100 relative overflow-hidden text-center transition-all">
-            
-            <!-- Üstteki Renkli Çizgi -->
             <div class="absolute top-0 left-0 w-full h-1.5 md:h-2 bg-gradient-to-r from-brand to-orange-400"></div>
 
-            <!-- ORTA LOGO GÜNCELLENDİ (Boyut Küçültüldü) -->
             <div class="flex justify-center mb-4 md:mb-6">
                 <img src="https://i.ibb.co/tw11TJ4M/Hedeflogo-arkapembe.png" class="h-10 md:h-14 w-auto object-contain drop-shadow-sm hover:scale-105 transition-transform duration-500" alt="Logo Center">
             </div>
 
-            <!-- Etiket -->
             <div class="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-slate-50 border border-slate-200 text-[10px] md:text-xs font-bold text-slate-500 mb-4 md:mb-6 uppercase tracking-wider">
                 <i data-lucide="truck" class="w-3 h-3 md:w-4 md:h-4 text-brand"></i>
                 <span>Online Teslimat Sorgulama</span>
             </div>
 
-            <!-- Başlık -->
             <h1 class="text-3xl md:text-5xl font-black text-darkBlue mb-4 md:mb-6 tracking-tight">
                 Siparişim <span class="text-gradient">Nerede?</span>
             </h1>
@@ -162,7 +157,6 @@
                 Siparişinizin durumunu anlık olarak takip etmek için lütfen TC Kimlik numaranızı aşağıya giriniz.
             </p>
 
-            <!-- Arama Formu -->
             <form onsubmit="handleSearch(event)" class="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 md:gap-4 items-center">
                 <div class="relative flex-1 w-full">
                     <div class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
@@ -209,7 +203,6 @@
                 </h3>
                 
                 <div class="flex items-center gap-3">
-                    <!-- ANASAYFAYA DÖN BUTONU (LİSTE EKRANI) -->
                     <button onclick="goToHome()" class="text-xs md:text-sm font-bold text-slate-500 hover:text-brand flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-lg hover:border-brand transition-all">
                         <i data-lucide="search" class="w-3 h-3 md:w-4 md:h-4"></i>
                         Yeni Sorgu
@@ -218,27 +211,20 @@
                 </div>
             </div>
             
-            <div id="ordersContainer" class="grid gap-3 md:gap-4">
-                <!-- JS Populates Here -->
-            </div>
+            <div id="ordersContainer" class="grid gap-3 md:gap-4"></div>
         </div>
 
         <!-- DETAIL VIEW -->
         <div id="orderDetailArea" class="hidden w-full animate-slide-up pb-12 mt-4 md:mt-6">
             
-            <!-- Navigation Buttons -->
             <div class="flex flex-wrap items-center gap-4 md:gap-6 mb-6 md:mb-8 pl-1">
-                <!-- Back to List -->
                 <button onclick="goBackToList()" class="group flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold text-slate-500 hover:text-darkBlue transition-colors">
                     <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:bg-brand group-hover:text-white group-hover:border-brand transition-all shadow-sm">
                         <i data-lucide="arrow-left" class="w-4 h-4 md:w-5 md:h-5"></i>
                     </div>
                     <span class="uppercase tracking-wide">Listeye Dön</span>
                 </button>
-
                 <div class="h-4 w-px bg-slate-300 hidden sm:block"></div>
-
-                <!-- Back to Home (ANASAYFAYA DÖN BUTONU DETAY EKRANI) -->
                 <button onclick="goToHome()" class="group flex items-center gap-2 text-xs md:text-sm font-bold text-slate-400 hover:text-brand transition-colors">
                     <i data-lucide="home" class="w-4 h-4"></i>
                     <span class="uppercase tracking-wide">Anasayfa</span>
@@ -247,30 +233,25 @@
 
             <!-- CARD -->
             <div class="bg-white rounded-3xl md:rounded-[2.5rem] shadow-card border border-slate-100 p-6 md:p-12 mb-6 md:mb-8 text-center relative overflow-hidden">
-                
-                <!-- Status Headline -->
                 <div class="mb-10 md:mb-14 relative z-10">
-                    <h2 id="detailStatusTitle" class="text-2xl md:text-4xl font-black text-brand tracking-tight mb-2 md:mb-3">
-                        <!-- JS Güncelleyecek -->
-                    </h2>
+                    <h2 id="detailStatusTitle" class="text-2xl md:text-4xl font-black text-brand tracking-tight mb-2 md:mb-3"></h2>
                     <div class="inline-block h-1 md:h-1.5 w-16 md:w-24 bg-gradient-to-r from-transparent via-brand to-transparent rounded-full opacity-50"></div>
                 </div>
                 
                 <!-- TIMELINE (Responsive Scrollable) -->
                 <div class="relative z-10 mb-4 md:mb-6">
-                    <!-- Mobilde yatay kaydırma için wrapper -->
+                    <!-- Mobilde kaydırma alanı - p-6 eklendi, gölgeler kesilmesin diye -->
                     <div class="overflow-x-auto hide-scrollbar p-6 -mx-6 md:overflow-visible md:p-0 md:mx-0">
-                        <div class="flex justify-between items-start relative min-w-[320px] md:min-w-0 min-h-[100px] md:min-h-[120px]">
+                        <!-- MIN-W-600PX: Mobilde genişliği zorla, böylece sıkışmaz ve kaydırılır -->
+                        <div class="flex justify-between items-start relative min-w-[600px] md:min-w-0 min-h-[100px] md:min-h-[120px]">
                             
                             <!-- Background Line -->
                             <div class="step-connector"></div>
                             <!-- Progress Line -->
                             <div id="progressBarFill" class="step-progress" style="width: 0%"></div>
 
-                            <!-- Steps Generation via JS for cleaner HTML -->
-                            <div id="timelineSteps" class="contents">
-                                <!-- JS will inject steps here -->
-                            </div>
+                            <!-- Steps Generation via JS -->
+                            <div id="timelineSteps" class="contents"></div>
 
                         </div>
                     </div>
@@ -286,7 +267,6 @@
                             <span id="detailOrderNo" class="font-mono font-black text-2xl md:text-4xl text-darkBlue tracking-tight">SP-000</span>
                         </div>
                         <div class="hidden sm:block px-6 py-2 bg-slate-50 rounded-xl border border-slate-100">
-                             <!-- KÜÇÜK LOGO GÜNCELLENDİ (Yeni Link) -->
                              <img src="https://i.ibb.co/tw11TJ4M/Hedeflogo-arkapembe.png" class="h-5 md:h-6 w-auto opacity-70" alt="Logo Small">
                         </div>
                     </div>
@@ -331,19 +311,9 @@
     <script>
         lucide.createIcons();
 
-        // --- GLOBAL VARIABLES ---
         let allOrders = [];
-        
-        const stepTitles = [
-            "Bekleniyor", 
-            "Gönderi Alındı", 
-            "Transfer Merkezinde", 
-            "Teslimat Şubesinde", 
-            "Kurye Dağıtımda", 
-            "Teslim Edildi"
-        ];
+        const stepTitles = ["Bekleniyor", "Gönderi Alındı", "Transfer Merkezinde", "Teslimat Şubesinde", "Kurye Dağıtımda", "Teslim Edildi"];
 
-        // --- DATA FETCHING ---
         async function fetchOrders(tcNumber) {
             try {
                 let rawData = [];
@@ -391,7 +361,6 @@
             });
         };
 
-        // --- UI HANDLERS ---
         async function handleSearch(e) {
             e.preventDefault();
             const input = document.getElementById('searchInput');
@@ -442,9 +411,7 @@
                 const html = `
                     <div onclick="showOrderDetail(${index})" class="group bg-white rounded-2xl md:rounded-3xl p-5 md:p-6 border border-slate-200 hover:border-brand hover:shadow-lg transition-all cursor-pointer flex items-center justify-between relative overflow-hidden">
                         <div class="absolute left-0 top-0 w-1.5 h-full bg-slate-100 group-hover:bg-brand transition-colors"></div>
-                        
                         <div class="pl-4 flex-1">
-                            <!-- Akıllı Etiket (Smart Tag) -->
                             <div class="flex flex-wrap items-center gap-2 mb-2">
                                 <span class="text-[10px] md:text-xs font-mono font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">#${order.siparis_no}</span>
                                 <div class="flex items-center gap-1 px-2 py-0.5 rounded-full border ${statusColor}">
@@ -452,14 +419,11 @@
                                     <span class="text-[10px] md:text-xs font-bold uppercase tracking-wide">${order.kargo_durumu}</span>
                                 </div>
                             </div>
-                            
                             <h4 class="font-bold text-darkBlue text-lg md:text-xl leading-tight group-hover:text-brand transition-colors">${order.urun_adi}</h4>
-                            
                             <p class="text-xs md:text-sm text-slate-400 mt-2 flex items-center gap-1.5">
                                 <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-300"></i> ${order.son_islem_tarihi}
                             </p>
                         </div>
-                        
                         <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-all transform group-hover:translate-x-1 ml-3">
                             <i data-lucide="chevron-right" class="w-5 h-5 md:w-6 md:h-6"></i>
                         </div>
@@ -470,7 +434,6 @@
             lucide.createIcons();
         }
 
-        // --- STEP LOGIC ---
         function getStepIndex(status) {
             const s = (status || '').toLowerCase();
             if (s.includes('teslim') || s.includes('tamam')) return 5;
@@ -487,13 +450,11 @@
             document.getElementById('ordersListArea').classList.add('hidden');
             document.getElementById('orderDetailArea').classList.remove('hidden');
             
-            // Basic Info
             document.getElementById('detailOrderNo').textContent = order.siparis_no || '---';
             document.getElementById('detailProductName').textContent = order.urun_adi || '-';
             document.getElementById('detailCustomer').textContent = order.musteri || '-';
             document.getElementById('detailLastDate').textContent = order.son_islem_tarihi || '-';
 
-            // --- HEADLINE & PROGRESS LOGIC ---
             const currentStep = getStepIndex(order.kargo_durumu);
             
             const titleEl = document.getElementById('detailStatusTitle');
@@ -511,7 +472,6 @@
                 titleEl.className = "text-2xl md:text-4xl font-black text-brand tracking-tight mb-2 md:mb-3";
             }
             
-            // --- DYNAMIC TIMELINE GENERATION (Responsive) ---
             const timelineContainer = document.getElementById('timelineSteps');
             timelineContainer.innerHTML = '';
             
@@ -541,16 +501,11 @@
                     }
                 }
 
-                // Responsive sizing classes
                 const sizeClasses = "w-10 h-10 md:w-14 md:h-14"; 
                 const iconSize = "w-4 h-4 md:w-6 md:h-6";
                 const textSize = "text-[9px] md:text-xs";
-                
-                // Margin Logic for even spacing (Approximate for 5 steps)
                 let marginClass = "w-16 md:w-24"; 
-                if (i === 0) marginClass += " -ml-2 md:-ml-4 sm:ml-0";
-                if (i === 4) marginClass += " -mr-2 md:-mr-4 sm:mr-0";
-
+                
                 const html = `
                     <div class="relative z-10 flex flex-col items-center ${marginClass} flex-shrink-0 group">
                         <div class="${sizeClasses} rounded-full flex items-center justify-center transition-all duration-500 shadow-sm mb-2 md:mb-4 ${iconClass}">
@@ -562,7 +517,6 @@
                 timelineContainer.insertAdjacentHTML('beforeend', html);
             });
 
-            // Progress Bar Width
             const progressFill = document.getElementById('progressBarFill');
             const percentages = [0, 0, 25, 50, 75, 100]; 
             progressFill.style.width = `${percentages[currentStep]}%`;
@@ -578,30 +532,19 @@
         }
 
         function goBackToList() {
-            // DETAYI GİZLE
             document.getElementById('orderDetailArea').classList.add('hidden');
-            // LİSTEYİ GÖSTER
             document.getElementById('ordersListArea').classList.remove('hidden');
-            // Sayfa başına kaydır
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function goToHome() {
-            // HER ŞEYİ GİZLE
             document.getElementById('ordersListArea').classList.add('hidden');
             document.getElementById('orderDetailArea').classList.add('hidden');
             document.getElementById('errorMsg').classList.add('hidden');
-            
-            // ARAMAYI GÖSTER
             document.getElementById('searchSection').classList.remove('hidden');
-            
-            // Inputu temizle (opsiyonel, kullanıcı tekrar kolay yazsın diye)
             document.getElementById('searchInput').value = '';
-            
-            // Sayfa başına kaydır
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
     </script>
 </body>
 </html>
