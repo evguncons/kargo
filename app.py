@@ -7,8 +7,8 @@ import os
 # -----------------------------------------------------------------------------
 # Streamlit sayfasının temel ayarları. Sayfa başlığı, ikonu ve yerleşim düzeni belirlenir.
 st.set_page_config(
-    page_title="Satış Liderlik Tablosu",
-    page_icon="🏆",
+    page_title="Kargo Takip Portalı - HEDEF AVM",
+    page_icon="🚀",
     layout="wide"  # HTML içeriğinin tam genişlikte görüntülenmesini sağlar.
 )
 
