@@ -45,7 +45,7 @@
         .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* TIMELINE ÇİZGİSİ - GRID TABANLI HESAPLAMA (KESİN ÇÖZÜM) */
+        /* TIMELINE ÇİZGİSİ */
         
         .step-connector, .step-progress {
             position: absolute;
@@ -66,10 +66,10 @@
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Masaüstü Ayarları (İkonlar w-14 (56px) -> Merkezi 28px) */
+        /* Masaüstü Ayarları (GÜNCELLENDİ: İkonlar w-20 (80px) -> Merkezi 40px) */
         @media (min-width: 768px) {
             .step-connector, .step-progress { 
-                top: 28px; 
+                top: 40px; 
                 height: 4px; 
             }
         }
@@ -235,8 +235,7 @@
                 
                 <!-- TIMELINE (Responsive Grid) -->
                 <div class="relative z-10 mb-4 md:mb-6">
-                    <!-- Mobilde taşma olmaması için w-full ve min-h değerleri -->
-                    <div class="relative w-full min-h-[90px] md:min-h-[120px]">
+                    <div class="relative w-full min-h-[90px] md:min-h-[140px]"> <!-- min-h arttırıldı -->
                         
                         <!-- Background Line -->
                         <div class="step-connector"></div>
@@ -494,11 +493,14 @@
                 }
 
                 // MOBILDE IKONLARI KUCULTTUK (w-10 -> w-8)
-                const sizeClasses = "w-8 h-8 md:w-14 md:h-14"; 
+                // GÜNCELLENDİ: MASAÜSTÜ İÇİN BÜYÜTÜLDÜ (w-14 -> w-20)
+                const sizeClasses = "w-8 h-8 md:w-20 md:h-20"; 
                 // MOBILDE ICON SIMGESINI KUCULTTUK
-                const iconSize = "w-3.5 h-3.5 md:w-6 md:h-6";
+                // GÜNCELLENDİ: MASAÜSTÜ İÇİN BÜYÜTÜLDÜ (w-6 -> w-10)
+                const iconSize = "w-3.5 h-3.5 md:w-10 md:h-10";
                 // YAZI BOYUTU OPTIMIZASYONU
-                const textSize = "text-[7px] md:text-xs leading-tight";
+                // GÜNCELLENDİ: MASAÜSTÜ İÇİN BÜYÜTÜLDÜ (text-xs -> text-sm)
+                const textSize = "text-[7px] md:text-sm leading-tight";
                 
                 const html = `
                     <div class="flex flex-col items-center justify-start h-full group">
