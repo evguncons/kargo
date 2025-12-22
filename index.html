@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sipariş & Kargo Takip</title>
+    <title>Hedefix Teslimat Takip</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Ikonlar -->
@@ -122,7 +122,8 @@
                  <img src="https://i.ibb.co/tw11TJ4M/Hedeflogo-arkapembe.png" class="h-8 md:h-10 w-auto brightness-0 invert drop-shadow-md" alt="Logo">
                  <div class="h-6 w-px bg-slate-600 block opacity-50"></div>
                  <div class="flex flex-col flex">
-                    <span class="font-black text-sm md:text-lg tracking-tight leading-none">KARGO TAKİP</span>
+                    <!-- İSİM GÜNCELLENDİ -->
+                    <span class="font-black text-sm md:text-lg tracking-tight leading-none uppercase">HEDEFİX TESLİMAT TAKİP</span>
                     <span class="text-[9px] md:text-[10px] font-bold text-brand tracking-[0.2em] uppercase mt-0.5 md:mt-1">Müşteri Portalı</span>
                  </div>
             </div>
@@ -136,8 +137,10 @@
         <div id="searchSection" class="my-auto w-full bg-white rounded-3xl md:rounded-[2rem] p-6 md:p-14 shadow-card border border-slate-100 relative overflow-hidden text-center transition-all">
             <div class="absolute top-0 left-0 w-full h-1.5 md:h-2 bg-gradient-to-r from-brand to-orange-400"></div>
 
-            <div class="flex justify-center mb-4 md:mb-6">
-                <img src="https://i.ibb.co/tw11TJ4M/Hedeflogo-arkapembe.png" class="h-10 md:h-14 w-auto object-contain drop-shadow-sm hover:scale-105 transition-transform duration-500" alt="Logo Center">
+            <!-- MASKOT ALANI (GÜNCELLENDİ) -->
+            <div class="flex justify-center mb-6 md:mb-8">
+                <!-- Boydan fotoğraf olduğu için yüksekliği artırdım (h-32 / h-48) -->
+                <img src="https://www.upload.ee/image/18916570/Ads_z_tasar_m__34_.png" class="h-32 md:h-48 w-auto object-contain drop-shadow-lg hover:scale-105 transition-transform duration-500 hover:-rotate-2" alt="Hedefix Maskot">
             </div>
 
             <div class="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-slate-50 border border-slate-200 text-[10px] md:text-xs font-bold text-slate-500 mb-4 md:mb-6 uppercase tracking-wider">
@@ -308,6 +311,7 @@
         async function fetchOrders(tcNumber) {
             try {
                 let rawData = [];
+                // Eğer ID yoksa demo verisini kullan, yoksa Google Sheets'ten çek
                 if (!GOOGLE_SHEET_ID) {
                     await new Promise(r => setTimeout(r, 600)); 
                     rawData = DEMO_DATA;
